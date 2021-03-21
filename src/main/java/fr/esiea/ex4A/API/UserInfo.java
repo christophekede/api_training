@@ -1,4 +1,4 @@
-package fr.esiea.ex4A.inscription;
+package fr.esiea.ex4A.API;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -8,9 +8,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class UserInfo {
-    @NotBlank(message = "Name is mandatory")
+
+    @NotBlank(message = "Email not blank")
     public final String userEmail;
+    @NotBlank(message = "Naùe not blank")
     public final String userName;
+    @NotBlank(message = "tweeter is mandatory")
     public final String userTweeter;
     @Pattern(regexp="^[A-Z]{2}$",message="length must be 2")
     public final String userCountry;
