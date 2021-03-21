@@ -7,9 +7,10 @@ import retrofit2.http.Query;
 import fr.esiea.ex4A.myData.AgifyData;
 
 
-public interface AgifyCaller {
+public interface AgifyClient {
     @GET("/")
-    Call<AgifyData> getCallerResponse(
-        @Query("name") String name, @Query("country_id") String country_id);
+    Call<AgifyData> getCallerResponse(@Query("name") String name, @Query("country_id") String country_id);
+        
+    
 
 }

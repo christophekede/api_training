@@ -17,18 +17,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.esiea.ex4A.myData.MatchData;
 import fr.esiea.ex4A.myData.UserData;
+import fr.esiea.ex4A.myInterface.AgifyClient;
 import fr.esiea.ex4A.myService.UserService;
 import fr.esiea.ex4A.repo.UserRepository;
 
 @RestController
 class ApiController {  
-   
-    public final UserRepository userRepo ;
-    public final UserService userService;
-    
 
+    // @Autowired
+     public final UserService userService;
+
+    // public ApiController (UserService userService) {
+    //     this.userService = userService;
+      
+    
      ApiController() {
-         this.userRepo = new UserRepository();
+         UserRepository userRepo = new UserRepository();
          this.userService = new UserService(userRepo);
          
 
@@ -40,6 +44,7 @@ class ApiController {
     ResponseEntity<UserData> inscription(@Valid @RequestBody UserData user) {
        
         userService.addUser(user);
+        // AgifyClient.getCallerResponse("name", "FR");
         return new ResponseEntity<UserData>(this.userService.getUsersList().get(0), HttpStatus.CREATED);
         
         

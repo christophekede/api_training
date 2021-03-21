@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import fr.esiea.ex4A.myInterface.AgifyCaller;
+import fr.esiea.ex4A.myInterface.AgifyClient;
 import okhttp3.OkHttpClient;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
@@ -12,7 +12,7 @@ import retrofit2.Retrofit;
 @SpringBootApplication
 public class Launcher {
     @Bean
-    public AgifyCaller agifyClient() {
+    public AgifyClient agifyClient() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit retrofit =
                 new Retrofit.Builder()
@@ -21,7 +21,7 @@ public class Launcher {
                         .client(httpClient.build())
                         .build();
 
-        return retrofit.create(AgifyCaller.class);
+        return retrofit.create(AgifyClient.class);
     }
 
     public static void main(String[] args) {
