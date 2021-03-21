@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.esiea.ex4A.myData.AgifyData;
 import fr.esiea.ex4A.myData.MatchData;
 import fr.esiea.ex4A.myData.UserData;
 import fr.esiea.ex4A.myInterface.AgifyClient;
+import fr.esiea.ex4A.myService.AgifyService;
 import fr.esiea.ex4A.myService.UserService;
 import fr.esiea.ex4A.repo.UserRepository;
 
@@ -27,14 +29,19 @@ class ApiController {
 
     // @Autowired
      public final UserService userService;
+     public final AgifyService agService;
+     public final AgifyClient agClient;
+
 
     // public ApiController (UserService userService) {
     //     this.userService = userService;
       
     
-     public ApiController() {
+     public ApiController(AgifyClient agClient) {
          UserRepository userRepo = new UserRepository();
          this.userService = new UserService(userRepo);
+         this.agClient = agClient;
+         this.agService = new AgifyService(agClient);
 
         
     }
@@ -52,7 +59,8 @@ class ApiController {
     }
     @GetMapping(path = "/api/matches", produces = MediaType.APPLICATION_JSON_VALUE,  consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<MatchData>> matches(@RequestParam(name = "userName", required = false) String name, @RequestParam(name = "userCountry", required = false) String country) {
-       System.out.println(name);
+     AgifyData data =this.agService.fetchUserAge("name", "FR");
+     System.out.println(data.age);
        System.out.println(userService.getUsersList().get(0));
         return new ResponseEntity<List<MatchData>>(List.of(new MatchData("kede", "chris"))   , HttpStatus.OK);
         
