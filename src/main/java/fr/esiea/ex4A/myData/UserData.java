@@ -6,6 +6,8 @@ import javax.validation.constraints.Pattern;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+// import com.fasterxml.jackson.databind.ObjectMapper; 
+// import com.fasterxml.jackson.databind.ObjectWriter; 
 
 public class UserData {
 
@@ -37,6 +39,14 @@ public class UserData {
         
 
     }
+
+    // public  String toJson() {
+    //     try {
+    //         return new ObjectMapper().writeValueAsString(this);
+    //     } catch (Exception e) {
+    //         throw new RuntimeException(e);
+    //     }
+    // }
 
   
 }

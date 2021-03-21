@@ -22,6 +22,7 @@ import fr.esiea.ex4A.myService.UserService;
 import fr.esiea.ex4A.repo.UserRepository;
 
 @RestController
+public
 class ApiController {  
 
     // @Autowired
@@ -31,16 +32,16 @@ class ApiController {
     //     this.userService = userService;
       
     
-     ApiController() {
+     public ApiController() {
          UserRepository userRepo = new UserRepository();
          this.userService = new UserService(userRepo);
-         
 
         
     }
     
     
     @PostMapping(path = "/api/inscription", produces = MediaType.APPLICATION_JSON_VALUE,  consumes = MediaType.APPLICATION_JSON_VALUE)
+    public
     ResponseEntity<UserData> inscription(@Valid @RequestBody UserData user) {
        
         userService.addUser(user);
