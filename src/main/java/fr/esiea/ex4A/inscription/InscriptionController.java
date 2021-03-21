@@ -1,5 +1,7 @@
-package fr.esiea.ex4A.inscription;
+  package fr.esiea.ex4A.inscription;
 
+
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import ch.qos.logback.core.status.Status;
 
 @RestController
 class InscriptionController {   
@@ -20,9 +24,10 @@ class InscriptionController {
     
     
     @PostMapping(path = "/api/inscription", produces = MediaType.APPLICATION_JSON_VALUE,  consumes = MediaType.APPLICATION_JSON_VALUE)
-    UserInfo inscription( @RequestBody UserInfo user) {
+    ResponseEntity<UserInfo> inscription(@Valid @RequestBody UserInfo user) {
         System.out.println("==================  "+user.userEmail);
-        return user;
+        return new ResponseEntity<UserInfo>(user, HttpStatus.CREATED);
+        
         
     }
 }
