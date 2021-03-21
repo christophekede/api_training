@@ -1,14 +1,15 @@
-package fr.esiea.ex4A.API;
+package fr.esiea.ex4A.myData;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Match {
+public class MatchData {
     public final String name;
     public final String twitter;
 
     @JsonCreator
-    public Match(@JsonProperty(value="name", required = true) String name, @JsonProperty(value="twitter", required = true) String twitter){
+    public MatchData(@JsonProperty(value="userName", required = true) String name, @JsonProperty(value="userTweeter", required = true) String twitter){
+        
         this.name = name;
         this.twitter = twitter;
     }

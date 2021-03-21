@@ -1,4 +1,4 @@
-package fr.esiea.ex4A.API;
+package fr.esiea.ex4A.myData;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class UserInfo {
+public class UserData {
 
     @NotBlank(message = "Email not blank")
     public final String userEmail;
@@ -23,7 +23,7 @@ public class UserInfo {
     public final String userSexPref;
 
     @JsonCreator
-    public UserInfo(  @JsonProperty(value = "userEmail", required = true) String userEmail, @JsonProperty(value = "userName", required = true) String userName,
+    public UserData(  @JsonProperty(value = "userEmail", required = true) String userEmail, @JsonProperty(value = "userName", required = true) String userName,
     @JsonProperty(value = "userTweeter", required = true) String userTweeter,
     @JsonProperty(value = "userCountry", required = true) String userCountry,
     @JsonProperty(value = "userSex", required = true) String userSex,
