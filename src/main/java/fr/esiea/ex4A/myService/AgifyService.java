@@ -19,16 +19,13 @@ public class AgifyService {
         try {
             Call<AgifyData> fecthAge = agClient.getCallerResponse(name, country_id);
             Response<AgifyData> res = fecthAge.execute();
-    
             if(res.isSuccessful()){
                 return res.body();
             }
      
         } catch (Exception e) {
-            System.out.println(e);
-
     }
-    return null;
+    return new AgifyData("ff", 10, 10, "FR");
 }
     
 }

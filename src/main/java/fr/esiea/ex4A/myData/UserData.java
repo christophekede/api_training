@@ -30,14 +30,8 @@ public class UserData {
     @JsonProperty(value = "userCountry", required = true) String userCountry,
     @JsonProperty(value = "userSex", required = true) String userSex,
     @JsonProperty(value = "userSexPref", required = true) String userSexPref) {
-        this.userEmail = userEmail;
-        this.userName = userName;
-        this.userTweeter = userTweeter;
-        this.userCountry = userCountry;
-        this.userSex = userSex;
-        this.userSexPref = userSexPref;
+        this.userEmail = userEmail;this.userName = userName;this.userTweeter = userTweeter;this.userCountry = userCountry;this.userSex = userSex;this.userSexPref = userSexPref;
         
-
     }
 
     // public  String toJson() {

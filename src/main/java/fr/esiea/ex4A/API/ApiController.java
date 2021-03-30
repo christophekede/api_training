@@ -27,25 +27,17 @@ import fr.esiea.ex4A.repo.UserRepository;
 public
 class ApiController {  
 
-    // @Autowired
+    
      public final UserService userService;
      public final AgifyService agService;
+     @Autowired
      public final AgifyClient agClient;
-
-
-    // public ApiController (UserService userService) {
-    //     this.userService = userService;
-      
-    
      public ApiController(AgifyClient agClient) {
          UserRepository userRepo = new UserRepository();
          this.userService = new UserService(userRepo);
          this.agClient = agClient;
-         this.agService = new AgifyService(agClient);
-
-        
-    }
-    
+         this.agService = new AgifyService(agClient); 
+    } 
     
     @PostMapping(path = "/api/inscription", produces = MediaType.APPLICATION_JSON_VALUE,  consumes = MediaType.APPLICATION_JSON_VALUE)
     public
@@ -53,15 +45,14 @@ class ApiController {
        
         userService.addUser(user);
         // AgifyClient.getCallerResponse("name", "FR");
-        return new ResponseEntity<UserData>(this.userService.getUsersList().get(0), HttpStatus.CREATED);
-        
+        return new ResponseEntity<UserData>(this.userService.getUsersList().get(0), HttpStatus.CREATED);  
         
     }
     @GetMapping(path = "/api/matches", produces = MediaType.APPLICATION_JSON_VALUE,  consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<MatchData>> matches(@RequestParam(name = "userName", required = false) String name, @RequestParam(name = "userCountry", required = false) String country) {
      AgifyData data =this.agService.fetchUserAge("name", "FR");
-     System.out.println(data.age);
-       System.out.println(userService.getUsersList().get(0));
+     System.out.println(data);
+    //    System.out.println(userService.getUsersList().get(0));
         return new ResponseEntity<List<MatchData>>(List.of(new MatchData("kede", "chris"))   , HttpStatus.OK);
         
         
