@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,7 @@ import fr.esiea.ex4A.myService.UserService;
 import fr.esiea.ex4A.repo.UserRepository;
 import retrofit2.Call;
 import retrofit2.Response;
+
 
 @RestController
 public class ApiController {
@@ -54,12 +56,13 @@ public class ApiController {
 
     }
 
-    @GetMapping(path = "/api/matches", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/api/matches", produces ="application/json")
     ResponseEntity<List<MatchData>> matches(@RequestParam(name = "userName", required = false) String name,
             @RequestParam(name = "userCountry", required = false) String country) {
-        AgifyData data = this.agService.fetchUserAge("name", "FR");
-        System.out.println(data);
+        // AgifyData data = this.agService.fetchUserAge("name", "FR");
+        //System.out.println(data);
         // System.out.println(userService.getUsersList().get(0));
+    
         return new ResponseEntity<List<MatchData>>(List.of(new MatchData("kede", "chris"), new MatchData("toto", "tata"), new MatchData("tu", "ta")), HttpStatus.OK);
 
     }
