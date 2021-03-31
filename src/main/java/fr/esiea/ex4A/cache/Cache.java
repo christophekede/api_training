@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class Cache {
     private final List<Cached> cache = new ArrayList<Cached>();
-
+    
     public List<Cached> getCachedRepo(){
         return this.cache;
     }

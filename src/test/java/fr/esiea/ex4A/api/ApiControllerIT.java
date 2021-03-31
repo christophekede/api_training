@@ -1,4 +1,5 @@
-package fr.esiea.ex4A.api;
+package fr.esiea.ex4A.API
+;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,13 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-
-import fr.esiea.ex4A.API.*;
+import fr.esiea.ex4A.myService.*;
+// import fr.esiea.ex4A.API.*;
 import fr.esiea.ex4A.myData.UserData;
-
-
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
@@ -39,7 +38,8 @@ class ApiControllerIT {
 
     @MockBean
     private ApiController ApiControlerMock;
-
+    @MockBean
+    private UserService userService;
     ApiControllerIT(@Autowired MockMvc mockMvc) {
         this.mockMvc = mockMvc;
     }
@@ -48,26 +48,37 @@ class ApiControllerIT {
     void hello_user_sign_up() throws Exception {
         String jsonData = "{\"userEmail\":\"chris@test.fr\",\"userName\":\"toto\",\"userTweeter\":\"tata\",\"userCountry\":\"US\",\"userSex\":\"M\",\"userSexPref\":\"F\"}";
         UserData user = new UserData("chris@test.fr", "toto", "tata", "US", "M", "F");
-       
-        when(ApiControlerMock.inscription(any(UserData.class))).thenReturn(ResponseEntity.status(HttpStatus.CREATED).body(user));
 
-        mockMvc
-        .perform(MockMvcRequestBuilders.post("/api/inscription")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(jsonData)
-        .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(content().json("""
-                {
-                   "userEmail":"chris@test.fr",
-                    "userName":"toto",
-                    "userTweeter":"tata",
-                    "userCountry":"US",
-                    "userSex":"M",
-                    "userSexPref":"F"
-                }
-                """));
-}
+        when(ApiControlerMock.inscription(any(UserData.class)))
+                .thenReturn(ResponseEntity.status(HttpStatus.CREATED).body(user));
 
-   
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/inscription").contentType(MediaType.APPLICATION_JSON)
+                .content(jsonData).accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated())
+                .andExpect(content().json("""
+                        {
+                           "userEmail":"chris@test.fr",
+                            "userName":"toto",
+                            "userTweeter":"tata",
+                            "userCountry":"US",
+                            "userSex":"M",
+                            "userSexPref":"F"
+                        }
+                        """));
+    }
+
+    @Test
+    void matches() throws Exception {
+        UserData a = new UserData(new UserData("a", "a", "a", "FR", "F", "M"), 50);
+        UserData b = new UserData(new UserData("b", "b", "b", "FR", "M", "F"), 52);
+        UserData c = new UserData(new UserData("c", "c", "b", "FR", "H", "H"), 53);
+        ArrayList<UserData> listUser = new ArrayList<>(Arrays.asList(a, b, c));
+        when(userService.getUsersList()).thenReturn(listUser);
+        when(userService.getMatchUsers("c", 51, "F", "M")).thenReturn(Arrays.asList(b));
+        when(userService.getUserByName(any(String.class)))
+                .thenReturn(new UserData(new UserData("c", "c", "c", "FR", "F", "M"), 51));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/matches?userName=c&userCountry=FR"))
+                .andExpect(status().isOk());
+
+    }
+
 }
