@@ -49,6 +49,7 @@ public class ApiController {
         try {
             Response<AgifyData> res = req.execute();
             UserData userWithAge = new UserData(user, res.body().age);
+            System.out.println(res.body().age);
             userService.addUser(userWithAge);
             return new ResponseEntity<UserData>(this.userService.getUsersList().get(0), HttpStatus.CREATED);
         } catch (IOException e) {

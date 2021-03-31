@@ -22,12 +22,12 @@ public class UserService {
 
     public List<UserData> getMatchUsers(String userName, int age, String sexPref) {
         return this.getUsersList().stream()
-                .filter(user -> user.getAge().get() <= age + 4 && user.getAge().get() >= age - 4 && !user.userName.equals(userName) && user.userSex.equals(sexPref)).collect(Collectors.toList());
+                .filter(user -> user.getAge().get() <= age + 4 && user.getAge().get() >= age - 4 && !user.userName.toLowerCase().equals(userName.toLowerCase()) && user.userSex.equals(sexPref)).collect(Collectors.toList());
     }
 
     public UserData getUserByName(String username) {
         for (UserData user : this.getUsersList()){
-            if(user.userName.equals(username))
+            if(user.userName.toLowerCase().equals(username.toLowerCase()))
                 return user;
         }
         return null;
