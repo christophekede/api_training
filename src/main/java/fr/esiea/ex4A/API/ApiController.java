@@ -72,15 +72,12 @@ public class ApiController {
     void saveUser (UserData user){
         Call<AgifyData> req = agClient.getCallerResponse(user.userName, user.userCountry);
         Response<AgifyData> res;
-
         try {
             res = req.execute();
             UserData userWithAge = new UserData(user, res.body().age);
             this.cache.addUser(user.userName, user.userCountry, res.body().age);
             userService.addUser(userWithAge);
-        } catch (IOException e) {
-            
-        }
-      
+        } catch (IOException e) {         
+        }  
     }
 }
