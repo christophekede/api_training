@@ -20,9 +20,9 @@ public class UserService {
         return this.userRepo.getUserRepo();
     }
 
-    public List<UserData> getMatchUsers(String userName, int age, String sexPref) {
+    public List<UserData> getMatchUsers(String userName, int age,String userSex,  String sexPref) {
         return this.getUsersList().stream()
-                .filter(user -> !user.userName.toLowerCase().equals(userName.toLowerCase()) && (user.getAge().get() <= age + 4 || user.getAge().get() >= age - 4) && user.userSex.equals(sexPref)).collect(Collectors.toList());
+                .filter(user -> !user.userName.toLowerCase().equals(userName.toLowerCase()) && (user.getAge().get() <= age + 4 && user.getAge().get() >= age - 4) && user.userSexPref.equals(userSex) && sexPref.equals(user.userSex)).collect(Collectors.toList());
     }
 
     public UserData getUserByName(String username) {
