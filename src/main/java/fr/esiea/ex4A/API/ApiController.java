@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.esiea.ex4A.cache.Cache;
 import fr.esiea.ex4A.myData.AgifyData;
 import fr.esiea.ex4A.myData.MatchData;
 import fr.esiea.ex4A.myData.UserData;
@@ -32,6 +33,7 @@ import retrofit2.Response;
 public class ApiController {
 
     public final UserService userService;
+    public final Cache cache;
     public final AgifyService agService;
     @Autowired
     public final AgifyClient agClient;
@@ -39,24 +41,22 @@ public class ApiController {
     public ApiController(AgifyClient agClient) {
         UserRepository userRepo = new UserRepository();
         this.userService = new UserService(userRepo);
+        this.cache = new Cache();
         this.agClient = agClient;
         this.agService = new AgifyService(agClient);
     }
 
     @PostMapping(path = "/api/inscription", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserData> inscription(@Valid @RequestBody UserData user) {
-        Call<AgifyData> req = agClient.getCallerResponse(user.userName, user.userCountry);
-        try {
-            Response<AgifyData> res = req.execute();
-            UserData userWithAge = new UserData(user, res.body().age);
-            System.out.println(res.body().age);
-            userService.addUser(userWithAge);
+       
+            if(this.cache.getUserCachedAge(user.userName, user.userCountry) == -1){
+               saveUser(user);
+            }else{
+                userService.addUser(new UserData(user, this.cache.getUserCachedAge(user.userName, user.userCountry)));
+            }         
             return new ResponseEntity<UserData>(this.userService.getUsersList().get(0), HttpStatus.CREATED);
-        } catch (IOException e) {
-            return new ResponseEntity<UserData>(this.userService.getUsersList().get(0), HttpStatus.CREATED);
+       
         }
-    }
-
     @GetMapping(path = "/api/matches", produces ="application/json")
     ResponseEntity<List<MatchData>> matches(@RequestParam(name = "userName", required = false) String name,
             @RequestParam(name = "userCountry", required = false) String country) {
@@ -68,5 +68,19 @@ public class ApiController {
                   return new ResponseEntity<List<MatchData>>(matches, HttpStatus.OK);
                 }
                 return new ResponseEntity<List<MatchData>>(List.of(), HttpStatus.OK);
+    }
+    void saveUser (UserData user){
+        Call<AgifyData> req = agClient.getCallerResponse(user.userName, user.userCountry);
+        Response<AgifyData> res;
+
+        try {
+            res = req.execute();
+            UserData userWithAge = new UserData(user, res.body().age);
+            this.cache.addUser(user.userName, user.userCountry, res.body().age);
+            userService.addUser(userWithAge);
+        } catch (IOException e) {
+            
+        }
+      
     }
 }
