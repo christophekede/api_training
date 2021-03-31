@@ -48,7 +48,6 @@ public class ApiController {
 
     @PostMapping(path = "/api/inscription", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserData> inscription(@Valid @RequestBody UserData user) {
-       
             if(this.cache.getUserCachedAge(user.userName, user.userCountry) == -1){
                saveUser(user);
             }else{
@@ -77,7 +76,7 @@ public class ApiController {
             UserData userWithAge = new UserData(user, res.body().age);
             this.cache.addUser(user.userName, user.userCountry, res.body().age);
             userService.addUser(userWithAge);
-        } catch (IOException e) {         
-        }  
+        } catch (IOException e) {
+        }
     }
 }
