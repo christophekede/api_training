@@ -63,7 +63,7 @@ public class ApiController {
                 UserData user = userService.getUserByName(name);
                 if(user != null){
                   List<MatchData> matches = new ArrayList<>();
-                  List<UserData> users =   userService.getMatchUsers(name, user.getAge().get(), user.userSex);
+                  List<UserData> users =   userService.getMatchUsers(name, user.getAge().get(), user.userSexPref
                   users.forEach(usr -> matches.add(new MatchData(usr.userName, usr.userTweeter)));
                   return new ResponseEntity<List<MatchData>>(matches, HttpStatus.OK);
                 }
