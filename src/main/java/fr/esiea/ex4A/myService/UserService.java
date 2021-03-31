@@ -3,6 +3,7 @@ package fr.esiea.ex4A.myService;
 import fr.esiea.ex4A.repo.UserRepository;
 import fr.esiea.ex4A.myData.UserData;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserService {
     private final UserRepository userRepo;
@@ -19,6 +20,18 @@ public class UserService {
         return this.userRepo.getUserRepo();
     }
 
+    public List<UserData> getMatchUsers(String userName, int age, String sexPref) {
+        return this.getUsersList().stream()
+                .filter(user -> user.getAge().get() <= age + 4 && user.getAge().get() >= age - 4 && !user.userName.equals(userName) && user.userSex.equals(sexPref)).collect(Collectors.toList());
+    }
+
+    public UserData getUserByName(String username) {
+        for (UserData user : this.getUsersList()){
+            if(user.userName.equals(username))
+                return user;
+        }
+        return null;
+    }
 
 
 }

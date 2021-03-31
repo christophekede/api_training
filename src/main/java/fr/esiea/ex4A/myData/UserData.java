@@ -5,6 +5,8 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Optional;
 
 // import com.fasterxml.jackson.databind.ObjectMapper; 
 // import com.fasterxml.jackson.databind.ObjectWriter; 
@@ -23,6 +25,9 @@ public class UserData {
     public final String userSex;
     @Pattern(regexp="^[MFO]$",message="length must be 1, M, F, or O")  
     public final String userSexPref;
+    
+    @JsonIgnore
+    private final Optional<Integer> age;
 
     @JsonCreator
     public UserData(  @JsonProperty(value = "userEmail", required = true) String userEmail, @JsonProperty(value = "userName", required = true) String userName,
@@ -31,7 +36,17 @@ public class UserData {
     @JsonProperty(value = "userSex", required = true) String userSex,
     @JsonProperty(value = "userSexPref", required = true) String userSexPref) {
         this.userEmail = userEmail;this.userName = userName;this.userTweeter = userTweeter;this.userCountry = userCountry;this.userSex = userSex;this.userSexPref = userSexPref;
-        
+        this.age = Optional.empty();
+    } 
+
+    public UserData (UserData user, int age) {
+        this.userEmail = user.userEmail;
+        this.userName = user.userName;
+        this.userTweeter = user.userTweeter;
+        this.userCountry = user.userCountry;
+        this.userSex = user.userSex;
+        this.userSexPref = user.userSexPref;
+        this.age = Optional.of(age);
     }
 
     // public  String toJson() {
@@ -42,5 +57,8 @@ public class UserData {
     //     }
     // }
 
+    public Optional<Integer> getAge() {
+        return age;
+    }
   
 }
