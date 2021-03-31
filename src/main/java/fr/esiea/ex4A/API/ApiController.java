@@ -45,18 +45,15 @@ public class ApiController {
 
     @PostMapping(path = "/api/inscription", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserData> inscription(@Valid @RequestBody UserData user) {
-        
         Call<AgifyData> req = agClient.getCallerResponse(user.userName, user.userCountry);
         try {
             Response<AgifyData> res = req.execute();
             UserData userWithAge = new UserData(user, res.body().age);
             userService.addUser(userWithAge);
-           
             return new ResponseEntity<UserData>(this.userService.getUsersList().get(0), HttpStatus.CREATED);
         } catch (IOException e) {
             return new ResponseEntity<UserData>(this.userService.getUsersList().get(0), HttpStatus.CREATED);
         }
-
     }
 
     @GetMapping(path = "/api/matches", produces ="application/json")
@@ -67,10 +64,8 @@ public class ApiController {
                   List<MatchData> matches = new ArrayList<>();
                   List<UserData> users =   userService.getMatchUsers(name, user.getAge().get(), user.userSex);
                   users.forEach(usr -> matches.add(new MatchData(usr.userName, usr.userTweeter)));
-                  return new ResponseEntity<List<MatchData>>(List.of(new MatchData("kede", "chris"), new MatchData("toto", "tata"), new MatchData("tu", "ta")), HttpStatus.OK);
+                  return new ResponseEntity<List<MatchData>>(matches, HttpStatus.OK);
                 }
-
                 return new ResponseEntity<List<MatchData>>(List.of(), HttpStatus.OK);
-
     }
 }
