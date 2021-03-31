@@ -45,10 +45,7 @@ public class ApiController {
         this.agClient = agClient;
         this.agService = new AgifyService(agClient);
         //this.userService.addUser(new UserData(new UserData("ff", "kam", "userTweeter", "FR", "F", "M"), 22));
-        this.userService.addUser(new UserData(new UserData("ff", "eng", "userTweeter", "FR", "M", "F"), 22));
-        this.userService.addUser(new UserData(new UserData("ff", "ang", "userTweeter", "US", "F", "M"), 22));
-        this.userService.addUser(new UserData(new UserData("ff", "chan", "userTweeter", "FR", "F", "F"), 18));
-        this.cache.addUser("kam", "FR", 22);
+        
     }
 
     @PostMapping(path = "/api/inscription", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
